@@ -10,11 +10,12 @@ import ui
 class MainMenuScene(Scene):
     def setup(self):
         # this method is called, when user moves to this scene
+        self.CENTRE_OF_SCREEN = self.size / 2
         
         # add background color
-        self.background = SpriteNode(position = self.size / 2, 
-                                     color = 'white', 
-                                     parent = self, 
+        self.background = SpriteNode('./assets/sprites/space_background.JPG',
+                                     position = self.CENTRE_OF_SCREEN,
+                                     parent = self,
                                      size = self.size)
     
     def update(self):
