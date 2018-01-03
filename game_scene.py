@@ -6,17 +6,31 @@
 from scene import *
 import ui
 
-
 class GameScene(Scene):
     def setup(self):
         # this method is called, when user moves to this scene
         
-        # add background color
-        self.background = SpriteNode(position = self.size / 2, 
-                                     color = 'white', 
-                                     parent = self, 
+        self.CENTRE_OF_SCREEN = self.size / 2
+        self.slider_scale_size = 0.4
+        
+        # add space background
+        self.background = SpriteNode('./assets/sprites/space_background.JPG',
+                                     position = self.CENTRE_OF_SCREEN,
+                                     parent = self,
                                      size = self.size)
-    
+        # add slider
+        slider_position = self.CENTRE_OF_SCREEN
+        slider_position.x = 100
+        self.slider = SpriteNode('./assets/sprites/slider.PNG',
+                                 position = slider_position,
+                                 parent = self,
+                                 alpha = 0.5,
+                                 scale = self.slider_scale_size)
+        self.slider_cursor = SpriteNode('./assets/sprites/slider_cursor.PNG',
+                                        position = slider_position,
+                                        parent = self,
+                                        scale = 0.2)
+        
     def update(self):
         # this method is called, hopefully, 60 times a second
         pass
