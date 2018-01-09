@@ -1,12 +1,14 @@
-# Created by: Mr. Coxall
-# Created on: Sep 2016
+# Created by: Jenny Trac
+# Created on: Dec 2017
 # Created for: ICS3U
 # This scene shows the main menu.
 
 from scene import *
 import ui
-from instructions_scene import *
 from game_scene import *
+from settings_scene import *
+from instructions_scene import *
+from credits_scene import *
 
 class MainMenuScene(Scene):
     def setup(self):
@@ -61,28 +63,28 @@ class MainMenuScene(Scene):
         self.play_arrow_button = SpriteNode('./assets/sprites/arrow_button.PNG',
                                        parent = self,
                                        position = play_arrow_button_position,
-                                       size = self.size / 10)
+                                       scale = 0.15)
         settings_arrow_button_position = self.CENTRE_OF_SCREEN
         settings_arrow_button_position.x = 285
         settings_arrow_button_position.y = self.size.y - 400
         self.settings_arrow_button = SpriteNode('./assets/sprites/arrow_button.PNG',
                                        parent = self,
                                        position = play_arrow_button_position,
-                                       size = self.size / 10)
+                                       scale = 0.15)
         instructions_arrow_button_position = self.CENTRE_OF_SCREEN
         instructions_arrow_button_position.x = 220
         instructions_arrow_button_position.y = self.size.y - 500
         self.instructions_arrow_button = SpriteNode('./assets/sprites/arrow_button.PNG',
                                        parent = self,
                                        position = instructions_arrow_button_position,
-                                       size = self.size / 10)
+                                       scale = 0.15)
         credits_arrow_button_position = self.CENTRE_OF_SCREEN
         credits_arrow_button_position.x = 290
         credits_arrow_button_position.y = self.size.y -600
         self.credits_arrow_button = SpriteNode('./assets/sprites/arrow_button.PNG',
                                        parent = self,
                                        position = credits_arrow_button_position,
-                                       size = self.size / 10)
+                                       scale = 0.15)
         
     def update(self):
         # this method is called, hopefully, 60 times a second
@@ -98,12 +100,16 @@ class MainMenuScene(Scene):
     
     def touch_ended(self, touch):
         # this method is called, when user releases a finger from the screen
-        if self.play_arrow_button.frame.contains_point(touch.location):
+        if self.play_arrow_button.frame.contains_point(touch.location) or self.play_label.frame.contains_point(touch.location):
             self.present_modal_scene(GameScene())
-        if self.instructions_arrow_button.frame.contains_point(touch.location):
+        if self.settings_arrow_button.frame.contains_point(touch.location) or self.settings_label.frame.contains_point(touch.location):
+             self.present_modal_scene(SettingsScene())
+        if self.instructions_arrow_button.frame.contains_point(touch.location) or self.instructions_label.frame.contains_point(touch.location):
             self.present_modal_scene(InstructionsScene())
+        if self.credits_arrow_button.frame.contains_point(touch.location) or self.credits_label.frame.contains_point(touch.location):
+            self.present_modal_scene(CreditsScene())
         # pass
-    
+        
     def did_change_size(self):
         # this method is called, when user changes the orientation of the screen
         # thus changing the size of each dimension

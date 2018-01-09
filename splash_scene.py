@@ -1,8 +1,7 @@
-# Created by: Mr. Coxall
-# Created on: Nov 2017
+# Created by: Jenny Trac
+# Created on: Dec 2017
 # Created for: ICS3U
-# This scene shows a splash screen for 2 seconds,
-#   then transitions to the splash logo scene.
+# This scene shows the splash scene with school logo
 
 from scene import *
 import ui
