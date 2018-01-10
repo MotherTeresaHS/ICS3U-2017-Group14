@@ -26,12 +26,18 @@ class GameOverScene(Scene):
                                       font = ('ChalkboardSE-Light', 120),
                                       parent = self,
                                       position = game_over_label_position)
-        # resume game button
-        resume_game_button_position = self.CENTRE_OF_SCREEN
-        resume_game_button_position.x = 220
-        resume_game_button_position.y = self.size.y / 2
-        self.resume_game_button = SpriteNode('./assets/sprites/arrow_button.PNG',
-                                             position = resume_game_button_position,
+        # main menu label
+        main_menu_label_position = self.size / 2
+        self.main_menu_label = LabelNode(text = "Main menu",
+                                         position = main_menu_label_position,
+                                         parent = self,
+                                         font = ('ChalkboardSE-Light', 80))
+        # main menu game button
+        main_menu_button_position = self.CENTRE_OF_SCREEN
+        main_menu_button_position.x = 220
+        main_menu_button_position.y = self.size.y / 2
+        self.main_menu_button = SpriteNode('./assets/sprites/arrow_button.PNG',
+                                             position = main_menu_button_position,
                                              parent = self,
                                              scale = 0.15)
         
@@ -50,8 +56,9 @@ class GameOverScene(Scene):
     def touch_ended(self, touch):
         # this method is called, when user releases a finger from the screen
         #pass
-        if self.resume_game_button.frame.contains_point(touch.location):
+        if self.main_menu_button.frame.contains_point(touch.location) or self.main_menu_label.frame.contains_point(touch.location):
             self.dismiss_modal_scene()
+            
     
     def did_change_size(self):
         # this method is called, when user changes the orientation of the screen

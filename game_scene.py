@@ -10,10 +10,14 @@ from copy import deepcopy
 import time
 from pause_scene import *
 from game_over_scene import *
+from settings_scene import *
 
 class GameScene(Scene):
     def setup(self):
         # this method is called, when user moves to this scene
+        
+        global character_setting
+        print(character_setting) #google: how to use global variables over multiple files python
         
         self.CENTRE_OF_SCREEN = self.size / 2
         self.SCREEN_SIZE = deepcopy(self.size)
@@ -24,6 +28,7 @@ class GameScene(Scene):
         self.asteroid_create_rate = 1
         self.kick_start_time = time.time()
         self.score = 0
+        self.kick_button_enabled = True
         
         # add space background
         self.background = SpriteNode('./assets/sprites/space_background.JPG',
@@ -65,13 +70,15 @@ class GameScene(Scene):
                                        scale = 0.4,
                                        alpha = 0.5)
         # ninja
+        self.ninja_choice = self.ninja_file(character_setting)
+        print(self.ninja_choice)
         ninja_position = self.CENTRE_OF_SCREEN
         ninja_position.x = 200
         ninja_position.y = self.SCREEN_SIZE.y / 2
-        self.ninja = SpriteNode('./assets/sprites/classic_ninja/c1.PNG',
+        self.ninja = SpriteNode('./assets/sprites/' + self.ninja_choice + '.PNG',
                                 parent = self,
                                 position = ninja_position,
-                                scale = 0.08)
+                                scale = 0.09)
         # score
         score_label_position = self.size
         score_label_position.x = self.size.x - 250
@@ -98,7 +105,11 @@ class GameScene(Scene):
         
         # check if kick ninja has been displayed for half a second, then change back to running
         if (time.time() - self.kick_start_time) > 0.5:
-            self.ninja_back_to_running()
+            self.ninja_back_to_running(self.ninja_choice)
+        
+        # disable kick button for 1 second after it has been clicked
+        if (time.time() - self.kick_start_time) > 1:
+            self.kick_button_enabled = True
         
         # check if ninja is kicking an asteroid and remove it
         if (time.time() - self.kick_start_time) <= 0.5:
@@ -150,14 +161,15 @@ class GameScene(Scene):
         #pass
         if self.pause_button.frame.contains_point(touch.location):
             self.present_modal_scene(PauseScene())
-        
+            
         # ensures that user uses slider and not a random part of screen
-        self.slider_used = False #idk if i want to leave this part in or not, makes game play choppy
+        #self.slider_used = False #idk if i want to leave this part in or not, makes game play choppy
         
         # kick button
-        if self.kick_button.frame.contains_point(touch.location):
+        if self.kick_button.frame.contains_point(touch.location) and self.kick_button_enabled == True:
             self.kick_start_time = time.time()
             self.ninja_kick()
+            self.kick_button_enabled = False
     
     def did_change_size(self):
         # this method is called, when user changes the orientation of the screen
@@ -192,7 +204,7 @@ class GameScene(Scene):
         self.asteroids.append(SpriteNode(asteroid_file,
                                          position = asteroid_start_position,
                                          parent = self,
-                                         scale = 0.2))
+                                         scale = 0.25))
         
         # make asteroid move across the screen
         asteroidMoveAction = Action.move_to(asteroid_end_position.x,
@@ -215,13 +227,24 @@ class GameScene(Scene):
                                 position = kick_ninja_position,
                                 scale = 0.1)
     
-    def ninja_back_to_running(self):
+    def ninja_back_to_running(self, ninja_name):
         # back to running ninja after half a second
         running_ninja_position = self.ninja.position
         self.ninja.remove_from_parent()
-        self.ninja = SpriteNode('./assets/sprites/classic_ninja/c1.PNG',
+        self.ninja = SpriteNode('./assets/sprites/' + ninja_name + '.PNG',
                                 parent = self,
                                 position = running_ninja_position,
-                                scale = 0.08)
+                                scale = 0.09)
+    
+    def ninja_file(self, character_choice):
+        # chooses which ninja to display
         
+        the_ninja_file = ' '
+        if character_setting == 'classic':
+            the_ninja_file = 'classic_ninja/c1'
+        elif character_setting == 'ginger':
+            the_ninja_file = 'ginger_ninja/g1'
+        elif character_setting == 'bat':
+            the_ninja_file = 'bat_ninja/b1'
         
+        return the_ninja_file
