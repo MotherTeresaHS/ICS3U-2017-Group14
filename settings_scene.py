@@ -15,6 +15,7 @@ class SettingsScene(Scene):
         
         self.sound_setting = True
         self.display_slider_setting = True
+        self.character_setting = 'classic'
         
         # add background color
         self.background = SpriteNode('./assets/sprites/space_background.JPG',
@@ -129,7 +130,7 @@ class SettingsScene(Scene):
         # this method is called, hopefully, 60 times a second
         #pass
         if self.sound_setting == False:
-            # change sound setting to off
+            # change sound setting slider to off
             #print("sound off")
             self.sound_slider_cursor.remove_from_parent()
             self.sound_slider_cursor_position.x = self.size.x - 610
@@ -140,12 +141,32 @@ class SettingsScene(Scene):
                                                   scale = 0.15,
                                                   alpha = 0.8)
         if self.sound_setting == True:
-            # change sound setting to off
+            # change sound setting slider to on
             #print("sound on")
             self.sound_slider_cursor.remove_from_parent()
             self.sound_slider_cursor_position.x = self.size.x - 690
             self.sound_slider_cursor_position.y = self.size.y - 275
             self.sound_slider_cursor = SpriteNode('./assets/sprites/slider_cursor.PNG',
+                                                  parent = self,
+                                                  position = self.sound_slider_cursor_position,
+                                                  scale = 0.15,
+                                                  alpha = 0.8)
+        if self.display_slider_setting == False:
+            # change display slider setting to off
+            self.display_slider_cursor.remove_from_parent()
+            self.display_slider_cursor_position.x = self.size.x - 460
+            self.display_slider_cursor_position.y = self.size.y - 345
+            self.display_slider_cursor = SpriteNode('./assets/sprites/slider_cursor.PNG',
+                                                  parent = self,
+                                                  position = self.sound_slider_cursor_position,
+                                                  scale = 0.15,
+                                                  alpha = 0.8)
+        if self.display_slider_setting == True:
+            # change display slider setting to on
+            self.display_slider_cursor.remove_from_parent()
+            self.display_slider_cursor_position.x = self.size.x - 540
+            self.display_slider_cursor_position.y = self.size.y - 345
+            self.display_slider_cursor = SpriteNode('./assets/sprites/slider_cursor.PNG',
                                                   parent = self,
                                                   position = self.sound_slider_cursor_position,
                                                   scale = 0.15,
@@ -170,7 +191,7 @@ class SettingsScene(Scene):
             
         # sound slider
         if self.sound_slider.frame.contains_point(touch.location):
-            print("sound slider clicked")
+            #print("sound slider clicked")
             if self.sound_setting == True:
                 self.sound_setting = False
             elif self.sound_setting == False:
@@ -178,20 +199,27 @@ class SettingsScene(Scene):
         
         # display slider
         if self.display_slider.frame.contains_point(touch.location):
-            print("display slider pressed")
-        # animate characters when they are clicked but only for 1 cycle
+            #print("display slider pressed")
+            if self.display_slider_setting == True:
+                self.display_slider_setting = False
+            elif self.display_slider_setting == False:
+                self.display_slider_setting = True
+        
+        # changing characters options and animating them but only for 1 cycle
         if self.classic_ninja.frame.contains_point(touch.location):
-            print('classic chosen')
+            self.character_setting = 'classic'
+            print(self.character_setting)
             classic_counter = 1
             while classic_counter <= 8:
                 self.animate_classic_ninja(classic_counter)
                 time.sleep(0.1)
                 classic_counter = classic_counter + 1
         if self.ginger_ninja.frame.contains_point(touch.location):
-            print('ginger chosen')
+            self.character_setting = 'ginger'
+            print(self.character_setting)
         if self.bat_ninja.frame.contains_point(touch.location):
-            print('bat chosen')
-        
+            self.character_setting = 'bat'
+            print(self.character_setting)
         
     def did_change_size(self):
         # this method is called, when user changes the orientation of the screen
