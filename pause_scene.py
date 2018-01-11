@@ -59,6 +59,7 @@ class PauseScene(Scene):
         #pass
         if self.resume_game_button.frame.contains_point(touch.location) or self.resume_game_label.frame.contains_point(touch.location):
             self.dismiss_modal_scene()
+            
     
     def did_change_size(self):
         # this method is called, when user changes the orientation of the screen

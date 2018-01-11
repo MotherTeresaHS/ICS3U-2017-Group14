@@ -7,15 +7,14 @@ from scene import *
 import ui
 import time
 
+character_setting = 'classic'
+
 class SettingsScene(Scene):
     def setup(self):
         # this method is called, when user moves to this scene
         
         self.CENTRE_OF_SCREEN = self.size / 2
-        
         self.sound_setting = True
-        self.display_slider_setting = True
-        self.character_setting = 'classic'
         
         # add background color
         self.background = SpriteNode('./assets/sprites/space_background.JPG',
@@ -53,30 +52,6 @@ class SettingsScene(Scene):
                                          position = self.sound_slider_cursor_position,
                                          scale = 0.15,
                                          alpha = 0.8)
-        #display slider
-        displayslider_label_position = self.CENTRE_OF_SCREEN
-        displayslider_label_position.x = self.size.x - 760
-        displayslider_label_position.y = self.size.y - 340
-        self.displayslider_label = LabelNode(text = "Display slider",
-                                    font = ('ChalkboardSE-Light', 50),
-                                    parent = self,
-                                    position = displayslider_label_position)
-        display_slider_position = self.CENTRE_OF_SCREEN
-        display_slider_position.x = self.size.x - 500
-        display_slider_position.y = self.size.y - 330
-        self.display_slider = SpriteNode('./assets/sprites/yes_no_slider.PNG',
-                                  position = display_slider_position,
-                                  parent = self,
-                                  scale = 0.2,
-                                  alpha = 0.7)
-        self.display_slider_cursor_position = self.CENTRE_OF_SCREEN
-        self.display_slider_cursor_position.x = self.size.x - 540
-        self.display_slider_cursor_position.y = self.size.y - 345
-        self.display_slider_cursor = SpriteNode('./assets/sprites/slider_cursor.PNG',
-                                         parent = self,
-                                         position = self.display_slider_cursor_position,
-                                         scale = 0.15,
-                                         alpha = 0.8)
         #characters
         characteroptions_label_position = self.CENTRE_OF_SCREEN
         characteroptions_label_position.x = self.size.x - 710
@@ -100,7 +75,7 @@ class SettingsScene(Scene):
         self.classic_ninja = SpriteNode('./assets/sprites/classic_ninja/c1.PNG',
                                         parent = self,
                                         position = classic_ninja_position,
-                                        scale = 0.1)
+                                        scale = 0.11)
         # ginger ninja
         ginger_ninja_position = self.CENTRE_OF_SCREEN
         ginger_ninja_position.x = 540
@@ -151,26 +126,6 @@ class SettingsScene(Scene):
                                                   position = self.sound_slider_cursor_position,
                                                   scale = 0.15,
                                                   alpha = 0.8)
-        if self.display_slider_setting == False:
-            # change display slider setting to off
-            self.display_slider_cursor.remove_from_parent()
-            self.display_slider_cursor_position.x = self.size.x - 460
-            self.display_slider_cursor_position.y = self.size.y - 345
-            self.display_slider_cursor = SpriteNode('./assets/sprites/slider_cursor.PNG',
-                                                  parent = self,
-                                                  position = self.sound_slider_cursor_position,
-                                                  scale = 0.15,
-                                                  alpha = 0.8)
-        if self.display_slider_setting == True:
-            # change display slider setting to on
-            self.display_slider_cursor.remove_from_parent()
-            self.display_slider_cursor_position.x = self.size.x - 540
-            self.display_slider_cursor_position.y = self.size.y - 345
-            self.display_slider_cursor = SpriteNode('./assets/sprites/slider_cursor.PNG',
-                                                  parent = self,
-                                                  position = self.sound_slider_cursor_position,
-                                                  scale = 0.15,
-                                                  alpha = 0.8)
         
     
     def touch_began(self, touch):
@@ -184,6 +139,7 @@ class SettingsScene(Scene):
     def touch_ended(self, touch):
         # this method is called, when user releases a finger from the screen
         #pass
+        global character_setting
         
         # back button
         if self.back_arrow_button.frame.contains_point(touch.location):
@@ -197,29 +153,21 @@ class SettingsScene(Scene):
             elif self.sound_setting == False:
                 self.sound_setting = True
         
-        # display slider
-        if self.display_slider.frame.contains_point(touch.location):
-            #print("display slider pressed")
-            if self.display_slider_setting == True:
-                self.display_slider_setting = False
-            elif self.display_slider_setting == False:
-                self.display_slider_setting = True
-        
         # changing characters options and animating them but only for 1 cycle
         if self.classic_ninja.frame.contains_point(touch.location):
-            self.character_setting = 'classic'
-            print(self.character_setting)
+            character_setting = 'classic'
+            print(character_setting)
             classic_counter = 1
             while classic_counter <= 8:
                 self.animate_classic_ninja(classic_counter)
                 time.sleep(0.1)
                 classic_counter = classic_counter + 1
         if self.ginger_ninja.frame.contains_point(touch.location):
-            self.character_setting = 'ginger'
-            print(self.character_setting)
+            character_setting = 'ginger'
+            print(character_setting)
         if self.bat_ninja.frame.contains_point(touch.location):
-            self.character_setting = 'bat'
-            print(self.character_setting)
+            character_setting = 'bat'
+            print(character_setting)
         
     def did_change_size(self):
         # this method is called, when user changes the orientation of the screen
@@ -250,5 +198,5 @@ class SettingsScene(Scene):
         self.classic_ninja = SpriteNode(classic_ninja_file,
                                         parent = self,
                                         position = classic_ninja_position,
-                                        scale = 0.1)
-        
+                                        scale = 0.11)
+
