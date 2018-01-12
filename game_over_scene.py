@@ -5,6 +5,7 @@
 
 from scene import *
 import ui
+import config
 from game_scene import *
 from main_menu_scene import *
 
@@ -40,6 +41,26 @@ class GameOverScene(Scene):
                                              position = main_menu_button_position,
                                              parent = self,
                                              scale = 0.15)
+        # score
+        score_label_position = self.CENTRE_OF_SCREEN
+        score_label_position.x = self.size.x / 4
+        score_label_position.y = self.size.y - 260
+        self.score_label = LabelNode("Score: " + str(config.score),
+                                     position = score_label_position,
+                                     parent = self,
+                                     font = ('ChalkboardSE-Light', 60))
+        # highscore
+        if config.score > config.high_score:
+            config.high_score = config.score
+        
+        # highscore label
+        highscore_label_position = self.CENTRE_OF_SCREEN
+        highscore_label_position.x = (self.size.x * 3 / 4) - 50
+        highscore_label_position.y = self.size.y - 260
+        self.highscore_label = LabelNode("Highscore: " + str(config.high_score),
+                                         position = highscore_label_position,
+                                         parent = self,
+                                         font = ('ChalkboardSE-Light', 60))
         
     def update(self):
         # this method is called, hopefully, 60 times a second

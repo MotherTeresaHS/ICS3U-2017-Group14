@@ -8,16 +8,13 @@ import ui
 from numpy import random
 from copy import deepcopy
 import time
+import config
 from pause_scene import *
 from game_over_scene import *
-from settings_scene import *
 
 class GameScene(Scene):
     def setup(self):
         # this method is called, when user moves to this scene
-        
-        global character_setting
-        print(character_setting) #google: how to use global variables over multiple files python
         
         self.CENTRE_OF_SCREEN = self.size / 2
         self.SCREEN_SIZE = deepcopy(self.size)
@@ -27,7 +24,6 @@ class GameScene(Scene):
         self.asteroid_speed = 8.0
         self.asteroid_create_rate = 1
         self.kick_start_time = time.time()
-        self.score = 0
         self.kick_button_enabled = True
         
         # add space background
@@ -70,8 +66,8 @@ class GameScene(Scene):
                                        scale = 0.4,
                                        alpha = 0.5)
         # ninja
-        self.ninja_choice = self.ninja_file(character_setting)
-        print(self.ninja_choice)
+        self.ninja_choice = self.ninja_file(config.character_setting)
+        #print(self.ninja_choice)
         ninja_position = self.CENTRE_OF_SCREEN
         ninja_position.x = 200
         ninja_position.y = self.SCREEN_SIZE.y / 2
@@ -118,7 +114,7 @@ class GameScene(Scene):
                     if asteroid_kicked.frame.intersects(self.ninja.frame):
                         asteroid_kicked.remove_from_parent()
                         self.asteroids.remove(asteroid_kicked)
-                        self.score = self.score + 1
+                        config.score = config.score + 1
         
         # check if running ninja is touching an asteroid and he dies
         if (time.time() - self.kick_start_time) > 0.5:
@@ -129,7 +125,7 @@ class GameScene(Scene):
                         self.present_modal_scene(GameOverScene())
         
         # update score
-        self.score_label.text = "Score: " + str(self.score)
+        self.score_label.text = "Score: " + str(config.score)
     
     def touch_began(self, touch):
         # this method is called, when user touches the screen
@@ -168,7 +164,7 @@ class GameScene(Scene):
         # kick button
         if self.kick_button.frame.contains_point(touch.location) and self.kick_button_enabled == True:
             self.kick_start_time = time.time()
-            self.ninja_kick()
+            self.ninja_kick(config.character_setting)
             self.kick_button_enabled = False
     
     def did_change_size(self):
@@ -179,7 +175,8 @@ class GameScene(Scene):
     def pause(self):
         # this method is called, when user touches the home button
         # save anything before app is put to background
-        pass
+        #pass
+        print('paused')
     
     def resume(self):
         # this method is called, when user place app from background 
@@ -212,7 +209,7 @@ class GameScene(Scene):
                                             self.asteroid_speed)
         self.asteroids[len(self.asteroids)-1].run_action(asteroidMoveAction)
     
-    def ninja_kick(self):
+    def ninja_kick(self, character):
         # shows ninja kicking
         
         # save ninja's location
@@ -221,11 +218,24 @@ class GameScene(Scene):
         # take out running ninja
         self.ninja.remove_from_parent()
         
+        ninja_kick_file = './assets/sprites/classic_ninja/ckick.PNG'
+        kick_ninja_scale = 0.1
+        
+        if character == 'ginger':
+            ninja_kick_file = './assets/sprites/ginger_ninja/gkick.PNG'
+            kick_ninja_scale = 0.11
+        elif character == 'bat':
+            ninja_kick_file = './assets/sprites/bat_ninja/bkick.PNG'
+            kick_ninja_scale = 0.12
+        
         # show kicking ninja
-        self.ninja = SpriteNode('./assets/sprites/classic_ninja/ckick.PNG',
+        self.ninja = SpriteNode(ninja_kick_file,
                                 parent = self,
                                 position = kick_ninja_position,
-                                scale = 0.1)
+                                scale = kick_ninja_scale)
+        
+        # um?
+        #self.ninja.texture = './assets/sprites/classic_ninja/ckick.PNG'
     
     def ninja_back_to_running(self, ninja_name):
         # back to running ninja after half a second
@@ -240,11 +250,15 @@ class GameScene(Scene):
         # chooses which ninja to display
         
         the_ninja_file = ' '
-        if character_setting == 'classic':
+        if character_choice == 'classic':
             the_ninja_file = 'classic_ninja/c1'
-        elif character_setting == 'ginger':
+        elif character_choice == 'ginger':
             the_ninja_file = 'ginger_ninja/g1'
-        elif character_setting == 'bat':
+        elif character_choice == 'bat':
             the_ninja_file = 'bat_ninja/b1'
         
         return the_ninja_file
+    
+    def pause_game(self):
+        # saves all data and stops all sprites from moving
+        

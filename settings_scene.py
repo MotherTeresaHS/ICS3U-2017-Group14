@@ -6,8 +6,7 @@
 from scene import *
 import ui
 import time
-
-character_setting = 'classic'
+import config 
 
 class SettingsScene(Scene):
     def setup(self):
@@ -139,7 +138,6 @@ class SettingsScene(Scene):
     def touch_ended(self, touch):
         # this method is called, when user releases a finger from the screen
         #pass
-        global character_setting
         
         # back button
         if self.back_arrow_button.frame.contains_point(touch.location):
@@ -155,19 +153,19 @@ class SettingsScene(Scene):
         
         # changing characters options and animating them but only for 1 cycle
         if self.classic_ninja.frame.contains_point(touch.location):
-            character_setting = 'classic'
-            print(character_setting)
-            classic_counter = 1
-            while classic_counter <= 8:
-                self.animate_classic_ninja(classic_counter)
-                time.sleep(0.1)
-                classic_counter = classic_counter + 1
+            config.character_setting = 'classic'
+            #print(config.character_setting)
+            #classic_counter = 1
+            #while classic_counter <= 8:
+            #    self.animate_classic_ninja(classic_counter)
+            #    time.sleep(0.1)
+            #    classic_counter = classic_counter + 1
         if self.ginger_ninja.frame.contains_point(touch.location):
-            character_setting = 'ginger'
-            print(character_setting)
+            config.character_setting = 'ginger'
+            #print(config.character_setting)
         if self.bat_ninja.frame.contains_point(touch.location):
-            character_setting = 'bat'
-            print(character_setting)
+            config.character_setting = 'bat'
+            #print(config.character_setting)
         
     def did_change_size(self):
         # this method is called, when user changes the orientation of the screen
@@ -184,19 +182,19 @@ class SettingsScene(Scene):
         # back into use. Reload anything you might need.
         pass
     
-    def animate_classic_ninja(self, classic_count):
-        # animates the classic ninja
-        #pass
-        print(classic_count)
-        # takes out existing sprite
-        self.classic_ninja.remove_from_parent()
-        # shows next sprite
-        classic_ninja_file = "./assets/sprites/classic_ninja/c" + str(classic_count) + ".PNG"
-        classic_ninja_position = self.CENTRE_OF_SCREEN
-        classic_ninja_position.x = 200
-        classic_ninja_position.y = 200
-        self.classic_ninja = SpriteNode(classic_ninja_file,
-                                        parent = self,
-                                        position = classic_ninja_position,
-                                        scale = 0.11)
+#    def animate_classic_ninja(self, classic_count):
+#        # animates the classic ninja
+#        #pass
+#        print(classic_count)
+#        # takes out existing sprite
+#        self.classic_ninja.remove_from_parent()
+#        # shows next sprite
+#        classic_ninja_file = "./assets/sprites/classic_ninja/c" + str(classic_count) + ".PNG"
+#        classic_ninja_position = self.CENTRE_OF_SCREEN
+#        classic_ninja_position.x = 200
+#        classic_ninja_position.y = 200
+#        self.classic_ninja = SpriteNode(classic_ninja_file,
+#                                        parent = self,
+#                                        position = classic_ninja_position,
+#                                        scale = 0.11)
 

@@ -5,8 +5,8 @@
 
 from scene import *
 import ui
+import config
 from game_scene import *
-from main_menu_scene import *
 
 class PauseScene(Scene):
     def setup(self):
@@ -41,6 +41,15 @@ class PauseScene(Scene):
                                              position = resume_game_button_position,
                                              parent = self,
                                              scale = 0.15)
+        # score
+        score_label_position = self.CENTRE_OF_SCREEN
+        score_label_position.x = self.size.x / 2
+        score_label_position.y = self.size.y - 260
+        self.score_label = LabelNode("Score: " + str(config.score),
+                                     position = score_label_position,
+                                     parent = self,
+                                     font = ('ChalkboardSE-Light', 60))
+        
         
     def update(self):
         # this method is called, hopefully, 60 times a second

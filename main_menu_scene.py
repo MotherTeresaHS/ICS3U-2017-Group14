@@ -14,6 +14,8 @@ class MainMenuScene(Scene):
     def setup(self):
         # this method is called, when user moves to this scene
         
+        #import global_variables
+        #print(global_variables.character_setting)
         self.CENTRE_OF_SCREEN = self.size / 2
         
         # add background color
