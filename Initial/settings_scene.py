@@ -182,6 +182,7 @@ class SettingsScene(Scene):
             #print("sound slider clicked")
             if config.sound_setting == True:
                 config.sound_setting = False
+                sound.stop_effect(config.background_music)
             elif config.sound_setting == False:
                 config.sound_setting = True
                 config.background_music = sound.play_effect('./assets/sounds/Background - music.mp3',
