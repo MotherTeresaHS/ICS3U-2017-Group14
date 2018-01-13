@@ -1,38 +1,44 @@
 # Created by: Jenny Trac
 # Created on: Dec 2017
 # Created for: ICS3U
-# This scene shows the splash scene with school logo
+# This scene shows the splash scene with the game logo
 
 from scene import *
 import ui
 import time
+from main_menu_scene import *
 
-from splash_logo_scene import *
-
-
-class SplashScene(Scene):
+class SplashLogoScene(Scene):
     def setup(self):
         # this method is called, when user moves to this scene
         
         # create timer, so that after 2 seconds move to next scene
         self.start_time = time.time()
+        self.CENTRE_OF_SCREEN = self.size / 2
         
-        # add MT blue background color
-        self.background = SpriteNode(position = self.size / 2, 
-                                     color = (0.61, 0.78, 0.87), 
-                                     parent = self, 
+        # add background color
+        self.background = SpriteNode('./assets/sprites/space_background.JPG',
+                                     position = self.CENTRE_OF_SCREEN,
+                                     parent = self,
                                      size = self.size)
-        self.school_crest = SpriteNode('./assets/sprites/MT_Game_Studio.png',
-                                       parent = self,
-                                       position = self.size/2,
-                                       size = self.size)
+        
+        
+        # add logo to centre of screen
+        logo_position = self.CENTRE_OF_SCREEN
+        logo_position.y = self.CENTRE_OF_SCREEN.y - 50
+        self.space_ninja_logo = SpriteNode('./assets/sprites/space_ninja_logo.PNG',
+                                           parent = self,
+                                           position = logo_position,
+                                           size = self.size)
+        
     
     def update(self):
         # this method is called, hopefully, 60 times a second
         
         # after 2 seconds, move to main menu scene
         if not self.presented_scene and time.time() - self.start_time > 2:
-            self.present_modal_scene(SplashLogoScene())
+            self.present_modal_scene(MainMenuScene())
+        
     
     def touch_began(self, touch):
         # this method is called, when user touches the screen

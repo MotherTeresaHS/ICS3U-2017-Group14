@@ -1,66 +1,63 @@
 # Created by: Jenny Trac
 # Created on: Dec 2017
 # Created for: ICS3U
-# This scene shows the gave over screen.
+# This scene shows the pause screen.
 
 from scene import *
 import ui
 import config
 from game_scene import *
-from main_menu_scene import *
 
-class GameOverScene(Scene):
+class PauseScene(Scene):
     def setup(self):
         # this method is called, when user moves to this scene
         
         self.CENTRE_OF_SCREEN = self.size / 2
         
-        # add space background
+        # space background
         self.background = SpriteNode('./assets/sprites/dark_space_background.PNG',
                                      position = self.CENTRE_OF_SCREEN,
                                      parent = self,
                                      size = self.size)
+        
+        
         # paused title
-        game_over_label_position = self.CENTRE_OF_SCREEN
-        game_over_label_position.y = self.size.y - 100
-        self.game_over_label = LabelNode(text = "Game Over",
+        paused_label_position = self.CENTRE_OF_SCREEN
+        paused_label_position.y = self.size.y - 100
+        self.paused_label = LabelNode(text = "Paused",
                                       font = ('ChalkboardSE-Light', 120),
                                       parent = self,
-                                      position = game_over_label_position)
-        # main menu label
-        main_menu_label_position = self.size / 2
-        self.main_menu_label = LabelNode(text = "Main menu",
-                                         position = main_menu_label_position,
-                                         parent = self,
-                                         font = ('ChalkboardSE-Light', 80))
-        # main menu game button
-        main_menu_button_position = self.CENTRE_OF_SCREEN
-        main_menu_button_position.x = 220
-        main_menu_button_position.y = self.size.y / 2
-        self.main_menu_button = SpriteNode('./assets/sprites/arrow_button.PNG',
-                                             position = main_menu_button_position,
+                                      position = paused_label_position)
+        
+        
+        # resume game label
+        resume_game_label_position = self.CENTRE_OF_SCREEN
+        resume_game_label_position.y = self.size.y / 2
+        self.resume_game_label = LabelNode(text = "Resume game",
+                                           font = ('ChalkboardSE-Light', 70),
+                                           parent = self,
+                                           position = resume_game_label_position)
+        
+        
+        # resume game button
+        resume_game_button_position = self.CENTRE_OF_SCREEN
+        resume_game_button_position.x = 220
+        resume_game_button_position.y = resume_game_label_position.y
+        self.resume_game_button = SpriteNode('./assets/sprites/arrow_button.PNG',
+                                             position = resume_game_button_position,
                                              parent = self,
                                              scale = 0.15)
+        
+        
         # score
         score_label_position = self.CENTRE_OF_SCREEN
-        score_label_position.x = self.size.x / 4
+        score_label_position.x = self.size.x / 2
         score_label_position.y = self.size.y - 260
         self.score_label = LabelNode("Score: " + str(config.score),
                                      position = score_label_position,
                                      parent = self,
                                      font = ('ChalkboardSE-Light', 60))
-        # highscore
-        if config.score > config.high_score:
-            config.high_score = config.score
         
-        # highscore label
-        highscore_label_position = self.CENTRE_OF_SCREEN
-        highscore_label_position.x = (self.size.x * 3 / 4) - 50
-        highscore_label_position.y = self.size.y - 260
-        self.highscore_label = LabelNode("Highscore: " + str(config.high_score),
-                                         position = highscore_label_position,
-                                         parent = self,
-                                         font = ('ChalkboardSE-Light', 60))
         
     def update(self):
         # this method is called, hopefully, 60 times a second
@@ -77,9 +74,11 @@ class GameOverScene(Scene):
     def touch_ended(self, touch):
         # this method is called, when user releases a finger from the screen
         #pass
-        if self.main_menu_button.frame.contains_point(touch.location) or self.main_menu_label.frame.contains_point(touch.location):
+        
+        # resume game button
+        if self.resume_game_button.frame.contains_point(touch.location) or self.resume_game_label.frame.contains_point(touch.location):
             self.dismiss_modal_scene()
-            
+        
     
     def did_change_size(self):
         # this method is called, when user changes the orientation of the screen

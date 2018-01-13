@@ -17,6 +17,8 @@ class InstructionsScene(Scene):
                                      position = self.CENTRE_OF_SCREEN,
                                      parent = self,
                                      size = self.size)
+        
+        
         # page title
         instructions_label_position = self.CENTRE_OF_SCREEN
         instructions_label_position.y = self.size.y - 100
@@ -24,7 +26,9 @@ class InstructionsScene(Scene):
                                             font = ('ChalkboardSE-Light', 100),
                                             parent = self,
                                             position = instructions_label_position)
-        #how to instructions
+        
+        
+        # how to instructions
         howtoplay_label_position = self.CENTRE_OF_SCREEN
         howtoplay_label_position.x = self.size.x - 800
         howtoplay_label_position.y = self.size.y - 270
@@ -32,6 +36,8 @@ class InstructionsScene(Scene):
                                     font = ('ChalkboardSE-Light', 60),
                                     parent = self,
                                     position = howtoplay_label_position)
+        
+        
         howtoslider_label_position = self.CENTRE_OF_SCREEN
         howtoslider_label_position.x = self.size.x - 510
         howtoslider_label_position.y = self.size.y - 400
@@ -39,13 +45,17 @@ class InstructionsScene(Scene):
                                     font = ('ChalkboardSE-Light', 40),
                                     parent = self,
                                     position = howtoplay_label_position)
+        
+        
         howtoasteroids_label_position = self.CENTRE_OF_SCREEN
         howtoasteroids_label_position.x = self.size.x - 500
         howtoasteroids_label_position.y = self.size.y - 470
-        self.howtoasteroids_label = LabelNode(text = "When asteroids appear, either kick them or avoid them.",
+        self.howtoasteroids_label = LabelNode(text = "When meteors appear, either kick them or avoid them.",
                                     font = ('ChalkboardSE-Light', 40),
                                     parent = self,
                                     position = howtoasteroids_label_position)
+        
+        
         # back button
         back_arrow_button_position = self.CENTRE_OF_SCREEN
         back_arrow_button_position.x = 120
@@ -55,7 +65,7 @@ class InstructionsScene(Scene):
                                        position = back_arrow_button_position,
                                        size = self.size / 8)
         
-        
+    
     def update(self):
         # this method is called, hopefully, 60 times a second
         pass
@@ -71,8 +81,11 @@ class InstructionsScene(Scene):
     def touch_ended(self, touch):
         # this method is called, when user releases a finger from the screen
         #pass
+        
+        # back button
         if self.back_arrow_button.frame.contains_point(touch.location):
             self.dismiss_modal_scene()
+        
     
     def did_change_size(self):
         # this method is called, when user changes the orientation of the screen

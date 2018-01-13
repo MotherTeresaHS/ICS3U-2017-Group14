@@ -5,10 +5,11 @@
 
 from scene import *
 import ui
+import time
+import sound
+import config
 from numpy import random
 from copy import deepcopy
-import time
-import config
 from pause_scene import *
 from game_over_scene import *
 
@@ -31,6 +32,8 @@ class GameScene(Scene):
                                      position = self.CENTRE_OF_SCREEN,
                                      parent = self,
                                      size = self.SCREEN_SIZE)
+        
+        
         # slider
         slider_position = self.CENTRE_OF_SCREEN
         slider_position.x = 65
@@ -39,6 +42,9 @@ class GameScene(Scene):
                                  parent = self,
                                  alpha = 0.5,
                                  scale = self.slider_scale_size)
+        
+        
+        # slider cursor
         self.slider_cursor_position = self.CENTRE_OF_SCREEN
         self.slider_cursor_position.y = self.SCREEN_SIZE.y / 2
         self.slider_cursor_position.x = 63
@@ -47,6 +53,8 @@ class GameScene(Scene):
                                         parent = self,
                                         scale = 0.2,
                                         alpha = 0.6)
+        
+        
         # kick button
         kick_button_position = self.CENTRE_OF_SCREEN
         kick_button_position.x = self.SCREEN_SIZE.x - 110
@@ -56,15 +64,19 @@ class GameScene(Scene):
                                       position = kick_button_position,
                                       scale = 0.25,
                                       alpha = 0.7)
+        
+        
         # pause button
-        pause_button_position = self.CENTRE_OF_SCREEN
-        pause_button_position.x = self.SCREEN_SIZE.x - 60
-        pause_button_position.y = self.SCREEN_SIZE.y - 60
-        self.pause_button = SpriteNode('./assets/sprites/pause_button.PNG',
-                                       parent = self,
-                                       position = pause_button_position,
-                                       scale = 0.4,
-                                       alpha = 0.5)
+        #pause_button_position = self.CENTRE_OF_SCREEN
+        #pause_button_position.x = self.SCREEN_SIZE.x - 60
+        #pause_button_position.y = self.SCREEN_SIZE.y - 60
+        #self.pause_button = SpriteNode('./assets/sprites/pause_button.PNG',
+        #                               parent = self,
+        #                               position = pause_button_position,
+        #                               scale = 0.4,
+        #                               alpha = 0.5)
+        
+        
         # ninja
         self.ninja_choice = self.ninja_file(config.character_setting)
         #print(self.ninja_choice)
@@ -75,6 +87,8 @@ class GameScene(Scene):
                                 parent = self,
                                 position = ninja_position,
                                 scale = 0.09)
+        
+        
         # score
         score_label_position = self.size
         score_label_position.x = self.size.x - 250
@@ -88,10 +102,16 @@ class GameScene(Scene):
         # this method is called, hopefully, 60 times a second
         #pass
         
+        # check if game is over
+        if config.game_over == True:
+            self.dismiss_modal_scene()
+        
+        
         # check if new asteroid should be created
-        asteroid_create_chance = random.randint(1, 40)
+        asteroid_create_chance = (random.randint(1, 40)) - (config.score / 10)
         if asteroid_create_chance <= self.asteroid_create_rate:
             self.add_asteroid()
+        
         
         # check if any asteroid is off the screen and delete
         for asteroid in self.asteroids:
@@ -99,22 +119,28 @@ class GameScene(Scene):
                 asteroid.remove_from_parent()
                 self.asteroids.remove(asteroid)
         
+        
         # check if kick ninja has been displayed for half a second, then change back to running
         if (time.time() - self.kick_start_time) > 0.5:
             self.ninja_back_to_running(self.ninja_choice)
         
+        
         # disable kick button for 1 second after it has been clicked
         if (time.time() - self.kick_start_time) > 1:
             self.kick_button_enabled = True
+        
         
         # check if ninja is kicking an asteroid and remove it
         if (time.time() - self.kick_start_time) <= 0.5:
             if len(self.asteroids) > 0:
                 for asteroid_kicked in self.asteroids:
                     if asteroid_kicked.frame.intersects(self.ninja.frame):
+                        if config.sound_setting == True:
+                            sound.play_effect('./assets/sounds/Asteroid - kicked.mp3')
                         asteroid_kicked.remove_from_parent()
                         self.asteroids.remove(asteroid_kicked)
                         config.score = config.score + 1
+        
         
         # check if running ninja is touching an asteroid and he dies
         if (time.time() - self.kick_start_time) > 0.5:
@@ -124,12 +150,15 @@ class GameScene(Scene):
                         self.ninja.remove_from_parent()
                         self.present_modal_scene(GameOverScene())
         
+        
         # update score
         self.score_label.text = "Score: " + str(config.score)
+        
     
     def touch_began(self, touch):
         # this method is called, when user touches the screen
         #pass
+        
         # check if user is using the slider
         if self.slider.frame.contains_point(touch.location):
             self.slider_used = True
@@ -137,7 +166,8 @@ class GameScene(Scene):
     def touch_moved(self, touch):
         # this method is called, when user moves a finger around on the screen
         #pass
-        # if user is using slider
+        
+        # if user is using slider, make cursor and ninja move
         if self.slider_used == True:
             # move cursor
             cursor_position = self.SCREEN_SIZE
@@ -152,20 +182,24 @@ class GameScene(Scene):
             ninjaMoveAction = Action.move_to(ninja_position.x, ninja_position.y)
             self.ninja.run_action(ninjaMoveAction)
     
+    
     def touch_ended(self, touch):
         # this method is called, when user releases a finger from the screen
         #pass
-        if self.pause_button.frame.contains_point(touch.location):
-            self.present_modal_scene(PauseScene())
+        
+        #if self.pause_button.frame.contains_point(touch.location):
+        #    self.present_modal_scene(PauseScene())
             
         # ensures that user uses slider and not a random part of screen
-        #self.slider_used = False #idk if i want to leave this part in or not, makes game play choppy
+        #self.slider_used = False # not using this feature because game play becomes choppy
         
         # kick button
         if self.kick_button.frame.contains_point(touch.location) and self.kick_button_enabled == True:
             self.kick_start_time = time.time()
             self.ninja_kick(config.character_setting)
             self.kick_button_enabled = False
+            if config.sound_setting == True:
+                sound.play_effect('./assets/sounds/Ninja - kick.mp3')
     
     def did_change_size(self):
         # this method is called, when user changes the orientation of the screen
@@ -175,8 +209,7 @@ class GameScene(Scene):
     def pause(self):
         # this method is called, when user touches the home button
         # save anything before app is put to background
-        #pass
-        print('paused')
+        pass
     
     def resume(self):
         # this method is called, when user place app from background 
@@ -186,22 +219,31 @@ class GameScene(Scene):
     def add_asteroid(self):
         # creates new asteroid to move across screen
         
+        # assign random start position for asteroid on right side of screen
         asteroid_start_position = Vector2()
         asteroid_start_position = deepcopy(self.SCREEN_SIZE)
         asteroid_start_position.x = self.size.x
         asteroid_start_position.y = random.randint(100, self.size.y - 99)
         
+        
+        # assign end position for asteroid on left side of screen
         asteroid_end_position = deepcopy(self.SCREEN_SIZE)
         asteroid_end_position.x = 0
         asteroid_end_position.y = asteroid_start_position.y
         
+        
+        # choose which asteroid to show (there are 4 options)
         asteroid_variation = random.randint(1, 5)
         asteroid_file = "./assets/sprites/asteroids/a" + str(asteroid_variation) + ".PNG"
         
+        
+        # create the asteroid and add it to array of asteroids
         self.asteroids.append(SpriteNode(asteroid_file,
                                          position = asteroid_start_position,
                                          parent = self,
-                                         scale = 0.25))
+                                         scale = 0.28,
+                                         alpha = 0.9))
+        
         
         # make asteroid move across the screen
         asteroidMoveAction = Action.move_to(asteroid_end_position.x,
@@ -215,9 +257,12 @@ class GameScene(Scene):
         # save ninja's location
         kick_ninja_position = self.ninja.position
         
+        
         # take out running ninja
         self.ninja.remove_from_parent()
         
+        
+        # check which ninja character is being used
         ninja_kick_file = './assets/sprites/classic_ninja/ckick.PNG'
         kick_ninja_scale = 0.1
         
@@ -228,23 +273,31 @@ class GameScene(Scene):
             ninja_kick_file = './assets/sprites/bat_ninja/bkick.PNG'
             kick_ninja_scale = 0.12
         
+        
         # show kicking ninja
         self.ninja = SpriteNode(ninja_kick_file,
                                 parent = self,
                                 position = kick_ninja_position,
                                 scale = kick_ninja_scale)
         
-        # um?
-        #self.ninja.texture = './assets/sprites/classic_ninja/ckick.PNG'
     
     def ninja_back_to_running(self, ninja_name):
         # back to running ninja after half a second
+        
+        # save the ninja's currents position
         running_ninja_position = self.ninja.position
+        
+        
+        # remove the kicking ninja
         self.ninja.remove_from_parent()
+        
+        
+        # show the running ninja again
         self.ninja = SpriteNode('./assets/sprites/' + ninja_name + '.PNG',
                                 parent = self,
                                 position = running_ninja_position,
                                 scale = 0.09)
+        
     
     def ninja_file(self, character_choice):
         # chooses which ninja to display
@@ -261,4 +314,4 @@ class GameScene(Scene):
     
     def pause_game(self):
         # saves all data and stops all sprites from moving
-        
+        pass
