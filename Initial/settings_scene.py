@@ -185,7 +185,7 @@ class SettingsScene(Scene):
                 sound.stop_effect(config.background_music)
             elif config.sound_setting == False:
                 config.sound_setting = True
-                config.background_music = sound.play_effect('./assets/sounds/Background - music.mp3',
+                config.background_music = sound.play_effect('./assets/sounds/backgroundMusic.mp3',
                                                             volume = 0.2)
         
         # changing characters options and animating them but only for 1 cycle
