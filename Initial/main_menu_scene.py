@@ -6,6 +6,7 @@
 from scene import *
 import ui
 import config
+import sound
 from game_scene import *
 from settings_scene import *
 from instructions_scene import *
