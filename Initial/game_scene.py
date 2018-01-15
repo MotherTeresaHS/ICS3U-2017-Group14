@@ -136,7 +136,7 @@ class GameScene(Scene):
                 for asteroid_kicked in self.asteroids:
                     if asteroid_kicked.frame.intersects(self.ninja.frame):
                         if config.sound_setting == True:
-                            sound.play_effect('./assets/sounds/Asteroid - kicked.mp3')
+                            sound.play_effect('./assets/sounds/asteroidKicked.mp3')
                         asteroid_kicked.remove_from_parent()
                         self.asteroids.remove(asteroid_kicked)
                         config.score = config.score + 1
@@ -199,7 +199,7 @@ class GameScene(Scene):
             self.ninja_kick(config.character_setting)
             self.kick_button_enabled = False
             if config.sound_setting == True:
-                sound.play_effect('./assets/sounds/Ninja - kick.mp3')
+                sound.play_effect('./assets/sounds/ninjaKick.mp3')
     
     def did_change_size(self):
         # this method is called, when user changes the orientation of the screen

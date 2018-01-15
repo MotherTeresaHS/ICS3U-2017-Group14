@@ -25,7 +25,7 @@ class SplashScene(Scene):
                                        parent = self,
                                        position = self.size/2,
                                        size = self.size)
-        sound.play_effect('./assets/sounds/Splash - scene.mp3')
+        sound.play_effect('./assets/sounds/splashScene.mp3')
         
         
     def update(self):
