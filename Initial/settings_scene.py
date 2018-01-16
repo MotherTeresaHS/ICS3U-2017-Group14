@@ -101,7 +101,7 @@ class SettingsScene(Scene):
                                         position = ginger_ninja_label_position)
         
         ginger_ninja_position = self.CENTRE_OF_SCREEN
-        ginger_ninja_position.x = self.size.x / 2
+        ginger_ninja_position.x = ginger_ninja_label_position.x
         ginger_ninja_position.y = ginger_ninja_label_position.y + 150
         self.ginger_ninja = SpriteNode('./assets/sprites/ginger_ninja/g1.PNG',
                                     parent = self,
