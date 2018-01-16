@@ -76,7 +76,7 @@ class SettingsScene(Scene):
         # classic ninja
         classic_ninja_label_position = self.CENTRE_OF_SCREEN
         classic_ninja_label_position.x = self.size.x / 4 - 50
-        classic_ninja_label_position.y = self.size.y - 700
+        classic_ninja_label_position.y = 50
         classic_ninja_label = LabelNode(text = "Classic Ninja",
                                         font = ('ChalkboardSE-Light', 30),
                                         parent = self,
@@ -84,7 +84,7 @@ class SettingsScene(Scene):
         
         classic_ninja_position = self.CENTRE_OF_SCREEN
         classic_ninja_position.x = self.size.x / 4
-        classic_ninja_position.y = 200
+        classic_ninja_position.y = classic_ninja_label_position.y + 150
         self.classic_ninja = SpriteNode('./assets/sprites/classic_ninja/c1.PNG',
                                         parent = self,
                                         position = classic_ninja_position,
@@ -94,7 +94,7 @@ class SettingsScene(Scene):
         # ginger ninja
         ginger_ninja_label_position = self.CENTRE_OF_SCREEN
         ginger_ninja_label_position.x = self.size.x / 2
-        ginger_ninja_label_position.y = self.size.y - 700
+        ginger_ninja_label_position.y = 50
         ginger_ninja_label = LabelNode(text = "Ginger Ninja",
                                         font = ('ChalkboardSE-Light', 30),
                                         parent = self,
@@ -102,7 +102,7 @@ class SettingsScene(Scene):
         
         ginger_ninja_position = self.CENTRE_OF_SCREEN
         ginger_ninja_position.x = self.size.x / 2
-        ginger_ninja_position.y = 200
+        ginger_ninja_position.y = ginger_ninja_label_position.y + 150
         self.ginger_ninja = SpriteNode('./assets/sprites/ginger_ninja/g1.PNG',
                                     parent = self,
                                     position = ginger_ninja_position,
@@ -112,7 +112,7 @@ class SettingsScene(Scene):
         # bat ninja
         bat_ninja_label_position = self.CENTRE_OF_SCREEN
         bat_ninja_label_position.x = self.size.x * 3 / 4 + 70
-        bat_ninja_label_position.y = self.size.y - 700
+        bat_ninja_label_position.y = 50
         bat_ninja_label = LabelNode(text = "Bat Ninja",
                                         font = ('ChalkboardSE-Light', 30),
                                         parent = self,
@@ -120,7 +120,7 @@ class SettingsScene(Scene):
         
         bat_ninja_position = self.CENTRE_OF_SCREEN
         bat_ninja_position.x = self.size.x * 3 / 4
-        bat_ninja_position.y = 200
+        bat_ninja_position.y = bat_ninja_label_position.y + 150
         self.bat_ninja = SpriteNode('./assets/sprites/bat_ninja/b1.PNG',
                                     parent = self,
                                     position = bat_ninja_position,
