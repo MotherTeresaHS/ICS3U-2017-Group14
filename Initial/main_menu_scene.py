@@ -105,8 +105,7 @@ class MainMenuScene(Scene):
         
         
         # play background music
-        config.background_music = sound.play_effect('./assets/sounds/backgroundMusic.mp3',
-                                                    volume = 0.2)
+        config.background_music = sound.play_effect('./assets/sounds/backgroundMusic.mp3')
         self.music_start_time = time.time()
         
     
@@ -121,8 +120,7 @@ class MainMenuScene(Scene):
         
         # check if audio has stopped playing and play again
         if config.sound_setting == True and (time.time() - self.music_start_time >= 65):
-            config.background_music = sound.play_effect('./assets/sounds/backgroundMusic.mp3',
-                                                        volume = 0.2)
+            config.background_music = sound.play_effect('./assets/sounds/backgroundMusic.mp3')
             self.music_start_time = time.time()
         
     
