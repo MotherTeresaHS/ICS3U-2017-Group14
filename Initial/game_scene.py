@@ -18,7 +18,6 @@ class GameScene(Scene):
         # this method is called, when user moves to this scene
         
         self.CENTRE_OF_SCREEN = self.size / 2
-        self.SCREEN_SIZE = deepcopy(self.size)
         self.slider_scale_size = 0.4
         self.asteroids = []
         self.slider_used = False
@@ -31,7 +30,7 @@ class GameScene(Scene):
         self.background = SpriteNode('./assets/sprites/space_background.PNG',
                                      position = self.CENTRE_OF_SCREEN,
                                      parent = self,
-                                     size = self.SCREEN_SIZE)
+                                     size = self.size)
         
         
         # slider
@@ -45,8 +44,8 @@ class GameScene(Scene):
         
         
         # slider cursor
-        self.slider_cursor_position = self.CENTRE_OF_SCREEN
-        self.slider_cursor_position.y = self.SCREEN_SIZE.y / 2
+        self.slider_cursor_position = Vector2()
+        self.slider_cursor_position.y = self.size.y / 2
         self.slider_cursor_position.x = 63
         self.slider_cursor = SpriteNode('./assets/sprites/slider_cursor.PNG',
                                         position = self.slider_cursor_position,
@@ -56,8 +55,8 @@ class GameScene(Scene):
         
         
         # kick button
-        kick_button_position = self.CENTRE_OF_SCREEN
-        kick_button_position.x = self.SCREEN_SIZE.x - 110
+        kick_button_position = Vector2()
+        kick_button_position.x = self.size.x - 110
         kick_button_position.y = 70
         self.kick_button = SpriteNode('./assets/sprites/kick_button.PNG',
                                       parent = self,
@@ -80,9 +79,9 @@ class GameScene(Scene):
         # ninja
         self.ninja_choice = self.ninja_file(config.character_setting)
         #print(self.ninja_choice)
-        ninja_position = self.CENTRE_OF_SCREEN
+        ninja_position = Vector2()
         ninja_position.x = 200
-        ninja_position.y = self.SCREEN_SIZE.y / 2
+        ninja_position.y = self.size.y / 2
         self.ninja = SpriteNode('./assets/sprites/' + self.ninja_choice + '.PNG',
                                 parent = self,
                                 position = ninja_position,
@@ -90,7 +89,7 @@ class GameScene(Scene):
         
         
         # score
-        score_label_position = self.size
+        score_label_position = Vector2()
         score_label_position.x = self.size.x - 250
         score_label_position.y = self.size.y - 60
         self.score_label = LabelNode(text = "Score: 0",
@@ -170,13 +169,13 @@ class GameScene(Scene):
         # if user is using slider, make cursor and ninja move
         if self.slider_used == True:
             # move cursor
-            cursor_position = self.SCREEN_SIZE
+            cursor_position = Vector2()
             cursor_position.x = 63
             cursor_position.y = touch.location.y
             cursorMoveAction = Action.move_to(cursor_position.x, cursor_position.y)
             self.slider_cursor.run_action(cursorMoveAction)
             # move ninja
-            ninja_position = self.SCREEN_SIZE
+            ninja_position = Vector2()
             ninja_position.x = 200
             ninja_position.y = touch.location.y
             ninjaMoveAction = Action.move_to(ninja_position.x, ninja_position.y)
@@ -221,13 +220,12 @@ class GameScene(Scene):
         
         # assign random start position for asteroid on right side of screen
         asteroid_start_position = Vector2()
-        asteroid_start_position = deepcopy(self.SCREEN_SIZE)
         asteroid_start_position.x = self.size.x
         asteroid_start_position.y = random.randint(100, self.size.y - 99)
         
         
         # assign end position for asteroid on left side of screen
-        asteroid_end_position = deepcopy(self.SCREEN_SIZE)
+        asteroid_end_position = Vector2()
         asteroid_end_position.x = 0
         asteroid_end_position.y = asteroid_start_position.y
         

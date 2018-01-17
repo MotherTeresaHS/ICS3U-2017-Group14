@@ -29,7 +29,7 @@ class CreditsScene(Scene):
         
         
         # developer, teacher, school, artwork and sound
-        developer_label_position = self.CENTRE_OF_SCREEN
+        developer_label_position = Vector2()
         developer_label_position.x = self.size.x - 700
         developer_label_position.y = self.size.y - 270
         self.developer_label = LabelNode(text = "Developer: Jenny Trac",
@@ -38,7 +38,7 @@ class CreditsScene(Scene):
                                     position = developer_label_position)
         
         
-        teacher_label_position = self.CENTRE_OF_SCREEN
+        teacher_label_position = Vector2()
         teacher_label_position.x = self.size.x - 730
         teacher_label_position.y = self.size.y - 350
         self.teacher_label = LabelNode(text = "Teacher: Mr. Coxall",
@@ -47,7 +47,7 @@ class CreditsScene(Scene):
                                     position = teacher_label_position)
         
         
-        school_label_position = self.CENTRE_OF_SCREEN
+        school_label_position = Vector2()
         school_label_position.x = self.size.x - 510
         school_label_position.y = self.size.y - 430
         self.school_label = LabelNode(text = "School: St. Mother Teresa High School",
@@ -56,7 +56,7 @@ class CreditsScene(Scene):
                                     position = school_label_position)
         
         
-        artwork_label_position = self.CENTRE_OF_SCREEN
+        artwork_label_position = Vector2()
         artwork_label_position.x = self.size.x - 490
         artwork_label_position.y = self.size.y - 510
         self.artwork_label = LabelNode(text = "Artwork: Becca Schroer and Jenny Trac",
@@ -65,8 +65,8 @@ class CreditsScene(Scene):
                                     position = artwork_label_position)
         
         
-        sound_label_position = self.CENTRE_OF_SCREEN
-        sound_label_position.x = 240
+        sound_label_position = Vector2()
+        sound_label_position.x = self.size.x - 790
         sound_label_position.y = self.size.y - 590
         self.sound_label = LabelNode(text = "Sound: iMovie",
                                      font = ('ChalkboardSE-Light', 50),
@@ -75,8 +75,8 @@ class CreditsScene(Scene):
         
         
         # back button
-        back_arrow_button_position = self.CENTRE_OF_SCREEN
-        back_arrow_button_position.x = 120
+        back_arrow_button_position = Vector2()
+        back_arrow_button_position.x = 100
         back_arrow_button_position.y = self.size.y - 100
         self.back_arrow_button = SpriteNode('./assets/sprites/back_button.PNG',
                                        parent = self,

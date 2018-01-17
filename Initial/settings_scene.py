@@ -15,6 +15,10 @@ class SettingsScene(Scene):
         
         self.CENTRE_OF_SCREEN = self.size / 2
         
+        
+        self.test_counter = 1
+        
+        
         # add background color
         self.background = SpriteNode('./assets/sprites/space_background.PNG',
                                      position = self.CENTRE_OF_SCREEN,
@@ -32,7 +36,7 @@ class SettingsScene(Scene):
         
         
         #sound label
-        sound_label_position = self.CENTRE_OF_SCREEN
+        sound_label_position = Vector2()
         sound_label_position.x = self.size.x - 850
         sound_label_position.y = self.size.y - 270
         self.sound_label = LabelNode(text = "Sound",
@@ -42,7 +46,7 @@ class SettingsScene(Scene):
         
         
         # sound slider
-        sound_slider_position = self.CENTRE_OF_SCREEN
+        sound_slider_position = Vector2()
         sound_slider_position.x = self.size.x - 650
         sound_slider_position.y = self.size.y - 260
         self.sound_slider = SpriteNode('./assets/sprites/yes_no_slider.PNG',
@@ -53,7 +57,7 @@ class SettingsScene(Scene):
         
         
         # cursor for sound slider
-        self.sound_slider_cursor_position = self.CENTRE_OF_SCREEN
+        self.sound_slider_cursor_position = Vector2()
         self.sound_slider_cursor_position.x = self.size.x - 690
         self.sound_slider_cursor_position.y = self.size.y - 275
         self.sound_slider_cursor = SpriteNode('./assets/sprites/slider_cursor.PNG',
@@ -64,7 +68,7 @@ class SettingsScene(Scene):
         
         
         #characters
-        characteroptions_label_position = self.CENTRE_OF_SCREEN
+        characteroptions_label_position = Vector2()
         characteroptions_label_position.x = self.size.x - 710
         characteroptions_label_position.y = self.size.y - 410
         self.characteroptions_label = LabelNode(text = "Character options:",
@@ -74,15 +78,15 @@ class SettingsScene(Scene):
         
         
         # classic ninja
-        classic_ninja_label_position = self.CENTRE_OF_SCREEN
-        classic_ninja_label_position.x = self.size.x / 4 - 50
+        classic_ninja_label_position = Vector2()
+        classic_ninja_label_position.x = self.size.x / 5
         classic_ninja_label_position.y = 50
         classic_ninja_label = LabelNode(text = "Classic Ninja",
                                         font = ('ChalkboardSE-Light', 30),
                                         parent = self,
                                         position = classic_ninja_label_position)
         
-        classic_ninja_position = self.CENTRE_OF_SCREEN
+        classic_ninja_position = Vector2()
         classic_ninja_position.x = self.size.x / 4
         classic_ninja_position.y = classic_ninja_label_position.y + 150
         self.classic_ninja = SpriteNode('./assets/sprites/classic_ninja/c1.PNG',
@@ -92,7 +96,7 @@ class SettingsScene(Scene):
         
         
         # ginger ninja
-        ginger_ninja_label_position = self.CENTRE_OF_SCREEN
+        ginger_ninja_label_position = Vector2()
         ginger_ninja_label_position.x = self.size.x / 2
         ginger_ninja_label_position.y = 50
         ginger_ninja_label = LabelNode(text = "Ginger Ninja",
@@ -100,7 +104,7 @@ class SettingsScene(Scene):
                                         parent = self,
                                         position = ginger_ninja_label_position)
         
-        ginger_ninja_position = self.CENTRE_OF_SCREEN
+        ginger_ninja_position = Vector2()
         ginger_ninja_position.x = ginger_ninja_label_position.x
         ginger_ninja_position.y = ginger_ninja_label_position.y + 150
         self.ginger_ninja = SpriteNode('./assets/sprites/ginger_ninja/g1.PNG',
@@ -110,15 +114,15 @@ class SettingsScene(Scene):
         
         
         # bat ninja
-        bat_ninja_label_position = self.CENTRE_OF_SCREEN
-        bat_ninja_label_position.x = self.size.x * 3 / 4 + 70
+        bat_ninja_label_position = Vector2()
+        bat_ninja_label_position.x = self.size.x * 4 / 5
         bat_ninja_label_position.y = 50
         bat_ninja_label = LabelNode(text = "Bat Ninja",
                                         font = ('ChalkboardSE-Light', 30),
                                         parent = self,
                                         position = bat_ninja_label_position)
         
-        bat_ninja_position = self.CENTRE_OF_SCREEN
+        bat_ninja_position = Vector2()
         bat_ninja_position.x = self.size.x * 3 / 4
         bat_ninja_position.y = bat_ninja_label_position.y + 150
         self.bat_ninja = SpriteNode('./assets/sprites/bat_ninja/b1.PNG',
@@ -128,7 +132,7 @@ class SettingsScene(Scene):
         
         
         # back button
-        back_arrow_button_position = self.CENTRE_OF_SCREEN
+        back_arrow_button_position = Vector2()
         back_arrow_button_position.x = 120
         back_arrow_button_position.y = self.size.y - 100
         self.back_arrow_button = SpriteNode('./assets/sprites/back_button.PNG',
@@ -136,6 +140,18 @@ class SettingsScene(Scene):
                                        position = back_arrow_button_position,
                                        size = self.size / 8)
         
+        
+        # test animating
+        test_ninja_position = Vector2()
+        test_ninja_position.x = self.size.x - 100
+        test_ninja_position.y = self.size.y - 100
+        self.test_ninja = SpriteNode('./assets/sprites/classic_ninja/c1.PNG',
+                                       parent = self,
+                                       position = test_ninja_position,
+                                       scale = 0.05)
+        
+        
+    
     def update(self):
         # this method is called, hopefully, 60 times a second
         #pass
@@ -167,18 +183,22 @@ class SettingsScene(Scene):
                                                   alpha = 0.8)
         
         # show which ninja is selected for the game by showing it kicking and the others running
+        
         if config.character_setting == 'classic':
             self.classic_ninja_kick()
         else:
             self.classic_run()
+        
         if config.character_setting == 'ginger':
             self.ginger_ninja_kick()
         else:
             self.ginger_run()
+        
         if config.character_setting == 'bat':
             self.bat_ninja_kick()
         else:
             self.bat_run()
+        
         
     
     def touch_began(self, touch):
@@ -211,18 +231,35 @@ class SettingsScene(Scene):
         # changing characters options and animating them but only for 1 cycle
         if self.classic_ninja.frame.contains_point(touch.location):
             config.character_setting = 'classic'
-            #print(config.character_setting)
-            #classic_counter = 1
-            #while classic_counter <= 8:
-            #    self.animate_classic_ninja(classic_counter)
-            #    time.sleep(0.1)
-            #    classic_counter = classic_counter + 1
         if self.ginger_ninja.frame.contains_point(touch.location):
             config.character_setting = 'ginger'
             #print(config.character_setting)
         if self.bat_ninja.frame.contains_point(touch.location):
             config.character_setting = 'bat'
             #print(config.character_setting)
+        
+        
+        
+        
+        # testing animation: this works
+        if self.test_ninja.frame.contains_point(touch.location):
+            print(self.test_counter)
+            self.test_animating(self.test_counter)
+            self.test_counter = self.test_counter + 1
+            if self.test_counter > 8:
+                self.test_counter = 1
+        
+        
+#        # testing animation: this does not work
+#        if self.test_ninja.frame.contains_point(touch.location):
+#            while self.test_counter <= 8:
+#                print(self.test_counter)
+#                self.test_animating(self.test_counter)
+#                self.test_counter = self.test_counter + 1
+#                
+#            self.test_counter = 1
+        
+        
         
     
     def did_change_size(self):
@@ -249,8 +286,8 @@ class SettingsScene(Scene):
         #kicking ninja properties
         c_ninja_kick_file = './assets/sprites/classic_ninja/ckick.PNG'
         kick_c_ninja_scale = 0.13
-        classic_ninja_position = self.CENTRE_OF_SCREEN
-        classic_ninja_position.x = 200
+        classic_ninja_position = Vector2()
+        classic_ninja_position.x = self.size.x / 4
         classic_ninja_position.y = 200
         
         # reassign ninja
@@ -268,8 +305,8 @@ class SettingsScene(Scene):
         #kicking ninja properties
         g_ninja_kick_file = './assets/sprites/ginger_ninja/gkick.PNG'
         kick_g_ninja_scale = 0.13
-        ginger_ninja_position = self.CENTRE_OF_SCREEN
-        ginger_ninja_position.x = 540
+        ginger_ninja_position = Vector2()
+        ginger_ninja_position.x = self.size.x / 2
         ginger_ninja_position.y = 200
         
         # reassign ninja
@@ -287,8 +324,8 @@ class SettingsScene(Scene):
         #kicking ninja properties
         b_ninja_kick_file = './assets/sprites/bat_ninja/bkick.PNG'
         kick_b_ninja_scale = 0.13
-        bat_ninja_position = self.CENTRE_OF_SCREEN
-        bat_ninja_position.x = self.size.x - 210
+        bat_ninja_position = Vector2()
+        bat_ninja_position.x = self.size.x * 3 / 4
         bat_ninja_position.y = 200
         
         # reassign ninja
@@ -304,8 +341,8 @@ class SettingsScene(Scene):
         self.classic_ninja.remove_from_parent()
         
         # ninja properties
-        classic_ninja_position = self.CENTRE_OF_SCREEN
-        classic_ninja_position.x = 200
+        classic_ninja_position = Vector2()
+        classic_ninja_position.x = self.size.x / 4
         classic_ninja_position.y = 200
         self.classic_ninja = SpriteNode('./assets/sprites/classic_ninja/c1.PNG',
                                         parent = self,
@@ -319,8 +356,8 @@ class SettingsScene(Scene):
         self.ginger_ninja.remove_from_parent()
         
         # ninja properties
-        ginger_ninja_position = self.CENTRE_OF_SCREEN
-        ginger_ninja_position.x = 540
+        ginger_ninja_position = Vector2()
+        ginger_ninja_position.x = self.size.x / 2
         ginger_ninja_position.y = 200
         self.ginger_ninja = SpriteNode('./assets/sprites/ginger_ninja/g1.PNG',
                                     parent = self,
@@ -334,8 +371,8 @@ class SettingsScene(Scene):
         self.bat_ninja.remove_from_parent()
         
         # ninja properties
-        bat_ninja_position = self.CENTRE_OF_SCREEN
-        bat_ninja_position.x = self.size.x - 210
+        bat_ninja_position = Vector2()
+        bat_ninja_position.x = self.size.x * 3 / 4
         bat_ninja_position.y = 200
         self.bat_ninja = SpriteNode('./assets/sprites/bat_ninja/b1.PNG',
                                     parent = self,
@@ -343,19 +380,41 @@ class SettingsScene(Scene):
                                     scale = 0.1)
         
     
-#    def animate_classic_ninja(self, classic_count):
-#        # animates the classic ninja
-#        #pass
-#        print(classic_count)
-#        # takes out existing sprite
-#        self.classic_ninja.remove_from_parent()
-#        # shows next sprite
-#        classic_ninja_file = "./assets/sprites/classic_ninja/c" + str(classic_count) + ".PNG"
-#        classic_ninja_position = self.CENTRE_OF_SCREEN
-#        classic_ninja_position.x = 200
-#        classic_ninja_position.y = 200
-#        self.classic_ninja = SpriteNode(classic_ninja_file,
-#                                        parent = self,
-#                                        position = classic_ninja_position,
-#                                        scale = 0.11)
+    def animate_classic_ninja(self, classic_count):
+        # animates the classic ninja
+        #pass
+        print(classic_count)
+        # takes out existing sprite
+        self.classic_ninja.remove_from_parent()
+        # shows next sprite
+        classic_ninja_file = "./assets/sprites/classic_ninja/c" + str(classic_count) + ".PNG"
+        classic_ninja_position = self.CENTRE_OF_SCREEN
+        classic_ninja_position.x = 200
+        classic_ninja_position.y = 200
+        self.classic_ninja = SpriteNode(classic_ninja_file,
+                                        parent = self,
+                                        position = classic_ninja_position,
+                                        scale = 0.11)
 
+
+
+    def test_animating(self, test_count):
+        # testing animating so I dont mess up the rest of my code
+        #pass
+        
+        self.test_ninja.remove_from_parent()
+        
+        test_ninja_position = Vector2()
+        test_ninja_position.x = self.size.x - 100
+        test_ninja_position.y = self.size.y - 100
+        
+        test_ninja_file = "./assets/sprites/classic_ninja/c" + str(test_count) + ".PNG"
+        
+        self.test_ninja = SpriteNode(test_ninja_file,
+                                     parent = self,
+                                     position = test_ninja_position,
+                                     scale = 0.05)
+        
+        
+        
+    

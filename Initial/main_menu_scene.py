@@ -71,7 +71,7 @@ class MainMenuScene(Scene):
         
         
         # all 4 arrow buttons
-        play_arrow_button_position = self.CENTRE_OF_SCREEN
+        play_arrow_button_position = Vector2()
         play_arrow_button_position.x = 350
         play_arrow_button_position.y = self.size.y - 300
         self.play_arrow_button = SpriteNode('./assets/sprites/arrow_button.PNG',
@@ -79,15 +79,15 @@ class MainMenuScene(Scene):
                                        position = play_arrow_button_position,
                                        scale = 0.15)
         
-        settings_arrow_button_position = self.CENTRE_OF_SCREEN
+        settings_arrow_button_position = Vector2()
         settings_arrow_button_position.x = 285
         settings_arrow_button_position.y = self.size.y - 400
         self.settings_arrow_button = SpriteNode('./assets/sprites/arrow_button.PNG',
                                        parent = self,
-                                       position = play_arrow_button_position,
+                                       position = settings_arrow_button_position,
                                        scale = 0.15)
         
-        instructions_arrow_button_position = self.CENTRE_OF_SCREEN
+        instructions_arrow_button_position = Vector2()
         instructions_arrow_button_position.x = 220
         instructions_arrow_button_position.y = self.size.y - 500
         self.instructions_arrow_button = SpriteNode('./assets/sprites/arrow_button.PNG',
@@ -95,7 +95,7 @@ class MainMenuScene(Scene):
                                        position = instructions_arrow_button_position,
                                        scale = 0.15)
         
-        credits_arrow_button_position = self.CENTRE_OF_SCREEN
+        credits_arrow_button_position = Vector2()
         credits_arrow_button_position.x = 290
         credits_arrow_button_position.y = self.size.y -600
         self.credits_arrow_button = SpriteNode('./assets/sprites/arrow_button.PNG',
