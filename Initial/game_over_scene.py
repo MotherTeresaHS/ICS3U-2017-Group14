@@ -40,7 +40,7 @@ class GameOverScene(Scene):
         
         
         # main menu game button
-        main_menu_button_position = self.CENTRE_OF_SCREEN
+        main_menu_button_position = Vector2()
         main_menu_button_position.x = 220
         main_menu_button_position.y = self.size.y / 2
         self.main_menu_button = SpriteNode('./assets/sprites/arrow_button.PNG',
@@ -50,7 +50,7 @@ class GameOverScene(Scene):
         
         
         # score
-        score_label_position = self.CENTRE_OF_SCREEN
+        score_label_position = Vector2()
         score_label_position.x = self.size.x / 4
         score_label_position.y = self.size.y - 260
         self.score_label = LabelNode("Score: " + str(config.score),
@@ -65,7 +65,7 @@ class GameOverScene(Scene):
         
         
         # highscore label
-        highscore_label_position = self.CENTRE_OF_SCREEN
+        highscore_label_position = Vector2()
         highscore_label_position.x = (self.size.x * 3 / 4) - 50
         highscore_label_position.y = self.size.y - 260
         self.highscore_label = LabelNode("Highscore: " + str(config.high_score),

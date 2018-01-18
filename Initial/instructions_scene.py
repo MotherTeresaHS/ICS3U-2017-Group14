@@ -29,7 +29,7 @@ class InstructionsScene(Scene):
         
         
         # how to instructions
-        howtoplay_label_position = self.CENTRE_OF_SCREEN
+        howtoplay_label_position = Vector2()
         howtoplay_label_position.x = self.size.x - 800
         howtoplay_label_position.y = self.size.y - 270
         self.howtoplay_label = LabelNode(text = "How to play:",
@@ -38,16 +38,16 @@ class InstructionsScene(Scene):
                                     position = howtoplay_label_position)
         
         
-        howtoslider_label_position = self.CENTRE_OF_SCREEN
+        howtoslider_label_position = Vector2()
         howtoslider_label_position.x = self.size.x - 510
         howtoslider_label_position.y = self.size.y - 400
         self.howtoslider_label = LabelNode(text = "Use slider on the left side to move ninja up and down.",
                                     font = ('ChalkboardSE-Light', 40),
                                     parent = self,
-                                    position = howtoplay_label_position)
+                                    position = howtoslider_label_position)
         
         
-        howtoasteroids_label_position = self.CENTRE_OF_SCREEN
+        howtoasteroids_label_position = Vector2()
         howtoasteroids_label_position.x = self.size.x - 500
         howtoasteroids_label_position.y = self.size.y - 470
         self.howtoasteroids_label = LabelNode(text = "When meteors appear, either kick them or avoid them.",
@@ -57,7 +57,7 @@ class InstructionsScene(Scene):
         
         
         # back button
-        back_arrow_button_position = self.CENTRE_OF_SCREEN
+        back_arrow_button_position = Vector2()
         back_arrow_button_position.x = 120
         back_arrow_button_position.y = self.size.y - 100
         self.back_arrow_button = SpriteNode('./assets/sprites/back_button.PNG',
