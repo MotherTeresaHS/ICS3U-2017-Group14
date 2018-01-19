@@ -150,6 +150,15 @@ class SettingsScene(Scene):
                                        position = test_ninja_position,
                                        scale = 0.05)
         
+        turtle_test_position = Vector2()
+        turtle_test_position.x = self.size.x - 200
+        turtle_test_position.y = self.size.y - 100
+        self.turtle_test = SpriteNode('./assets/sprites/bigboi.GIF',
+                                      parent = self,
+                                      position = turtle_test_position,
+                                      scale = 0.2)
+        
+        
         
     
     def update(self):
