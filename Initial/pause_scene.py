@@ -58,7 +58,7 @@ class PauseScene(Scene):
                                      parent = self,
                                      font = ('ChalkboardSE-Light', 60))
         
-        
+    
     def update(self):
         # this method is called, hopefully, 60 times a second
         pass
@@ -94,4 +94,3 @@ class PauseScene(Scene):
         # this method is called, when user place app from background 
         # back into use. Reload anything you might need.
         pass
-    

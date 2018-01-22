@@ -142,7 +142,6 @@ class SettingsScene(Scene):
                                        position = back_arrow_button_position,
                                        size = self.size / 8)
         
-        
     
     def update(self):
         # this method is called, hopefully, 60 times a second
@@ -161,6 +160,7 @@ class SettingsScene(Scene):
                                                   scale = 0.15,
                                                   alpha = 0.8)
         
+        
         # if sound is on, cursor for slider should be on the left side
         if config.sound_setting == True:
             # change sound setting slider to on
@@ -173,6 +173,7 @@ class SettingsScene(Scene):
                                                   position = self.sound_slider_cursor_position,
                                                   scale = 0.15,
                                                   alpha = 0.8)
+        
         
         # show which ninja is selected for the game by showing it running
         
@@ -223,6 +224,7 @@ class SettingsScene(Scene):
         if self.back_arrow_button.frame.contains_point(touch.location):
             self.dismiss_modal_scene()
         
+        
         # sound slider
         if self.sound_slider.frame.contains_point(touch.location):
             #print("sound slider clicked")
@@ -233,6 +235,7 @@ class SettingsScene(Scene):
                 config.sound_setting = True
                 config.background_music = sound.play_effect('./assets/sounds/backgroundMusic.mp3',
                                                             volume = 0.2)
+        
         
         # changing characters options and animating them but only for 1 cycle
         if self.classic_ninja.frame.contains_point(touch.location):
@@ -323,5 +326,3 @@ class SettingsScene(Scene):
                                         position = bat_ninja_position,
                                         scale = 0.1)
         
-    
-    

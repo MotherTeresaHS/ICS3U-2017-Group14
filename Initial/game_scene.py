@@ -25,6 +25,9 @@ class GameScene(Scene):
         self.asteroid_create_rate = 1
         self.kick_start_time = time.time()
         self.kick_button_enabled = True
+        self.animate_counter = 1
+        self.animate_ninja_enabled = True
+        
         
         # add space background
         self.background = SpriteNode('./assets/sprites/space_background.PNG',
@@ -97,6 +100,7 @@ class GameScene(Scene):
                                            parent = self,
                                            position = score_label_position)
         
+    
     def update(self):
         # this method is called, hopefully, 60 times a second
         #pass
@@ -121,7 +125,7 @@ class GameScene(Scene):
         
         # check if kick ninja has been displayed for half a second, then change back to running
         if (time.time() - self.kick_start_time) > 0.5:
-            self.ninja_back_to_running(self.ninja_choice)
+            self.animate_ninja_enabled = True
         
         
         # disable kick button for 1 second after it has been clicked
@@ -153,6 +157,14 @@ class GameScene(Scene):
         # update score
         self.score_label.text = "Score: " + str(config.score)
         
+        
+        # animate ninja
+        if self.animate_ninja_enabled == True:
+            self.animate_ninja(self.animate_counter, config.character_setting)
+            self.animate_counter = self.animate_counter + 1
+            if self.animate_counter > 8:
+                self.animate_counter = 1
+        
     
     def touch_began(self, touch):
         # this method is called, when user touches the screen
@@ -168,19 +180,21 @@ class GameScene(Scene):
         
         # if user is using slider, make cursor and ninja move
         if self.slider_used == True:
+            
             # move cursor
             cursor_position = Vector2()
             cursor_position.x = 63
             cursor_position.y = touch.location.y
             cursorMoveAction = Action.move_to(cursor_position.x, cursor_position.y)
             self.slider_cursor.run_action(cursorMoveAction)
+            
             # move ninja
             ninja_position = Vector2()
             ninja_position.x = 200
             ninja_position.y = touch.location.y
             ninjaMoveAction = Action.move_to(ninja_position.x, ninja_position.y)
             self.ninja.run_action(ninjaMoveAction)
-    
+        
     
     def touch_ended(self, touch):
         # this method is called, when user releases a finger from the screen
@@ -197,8 +211,10 @@ class GameScene(Scene):
             self.kick_start_time = time.time()
             self.ninja_kick(config.character_setting)
             self.kick_button_enabled = False
+            self.animate_ninja_enabled = False
             if config.sound_setting == True:
                 sound.play_effect('./assets/sounds/ninjaKick.mp3')
+        
     
     def did_change_size(self):
         # this method is called, when user changes the orientation of the screen
@@ -309,7 +325,34 @@ class GameScene(Scene):
             the_ninja_file = 'bat_ninja/b1'
         
         return the_ninja_file
+        
     
     def pause_game(self):
         # saves all data and stops all sprites from moving
         pass
+    
+    def animate_ninja(self, animate_count, character_choice):
+        # animates the classic ninja
+        #pass
+        
+        # saves sprites position
+        ninja_position = self.ninja.position
+        
+        # takes out existing sprite
+        self.ninja.remove_from_parent()
+        
+        # shows next sprite
+        ninja_file = "./assets/sprites/classic_ninja/c" + str(animate_count) + ".PNG"
+        
+        if character_choice == 'ginger':
+            ninja_file = "./assets/sprites/ginger_ninja/g" + str(animate_count) + ".PNG"
+        
+        if character_choice == 'bat':
+            ninja_file = "./assets/sprites/bat_ninja/b" + str(animate_count) + ".PNG"
+        
+        self.ninja = SpriteNode(ninja_file,
+                                parent = self,
+                                position = ninja_position,
+                                scale = 0.09)
+        
+    
