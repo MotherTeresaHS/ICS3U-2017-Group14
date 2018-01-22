@@ -61,4 +61,3 @@ class SplashScene(Scene):
         # this method is called, when user place app from background 
         # back into use. Reload anything you might need.
         pass
-    

@@ -73,6 +73,7 @@ class GameOverScene(Scene):
                                          parent = self,
                                          font = ('ChalkboardSE-Light', 60))
         
+    
     def update(self):
         # this method is called, hopefully, 60 times a second
         pass
@@ -94,7 +95,7 @@ class GameOverScene(Scene):
             # change game status to over then close scene
             config.game_over = True
             self.dismiss_modal_scene()
-            
+        
     
     def did_change_size(self):
         # this method is called, when user changes the orientation of the screen

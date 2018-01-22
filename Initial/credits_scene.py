@@ -83,6 +83,7 @@ class CreditsScene(Scene):
                                        position = back_arrow_button_position,
                                        size = self.size / 8)
         
+    
     def update(self):
         # this method is called, hopefully, 60 times a second
         pass
@@ -102,6 +103,7 @@ class CreditsScene(Scene):
         #back button
         if self.back_arrow_button.frame.contains_point(touch.location):
             self.dismiss_modal_scene()
+        
     
     def did_change_size(self):
         # this method is called, when user changes the orientation of the screen
@@ -117,4 +119,3 @@ class CreditsScene(Scene):
         # this method is called, when user place app from background 
         # back into use. Reload anything you might need.
         pass
-    
