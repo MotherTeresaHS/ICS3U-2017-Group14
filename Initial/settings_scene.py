@@ -15,9 +15,11 @@ class SettingsScene(Scene):
         
         self.CENTRE_OF_SCREEN = self.size / 2
         
+        self.animate_classic_enabled = False
+        self.animate_ginger_enabled = False
+        self.animate_bat_enabled = False
         
-        self.test_counter = 1
-        
+        self.animate_counter = 1
         
         # add background color
         self.background = SpriteNode('./assets/sprites/space_background.PNG',
@@ -141,16 +143,6 @@ class SettingsScene(Scene):
                                        size = self.size / 8)
         
         
-        # test animating
-        test_ninja_position = Vector2()
-        test_ninja_position.x = self.size.x - 100
-        test_ninja_position.y = self.size.y - 100
-        self.test_ninja = SpriteNode('./assets/sprites/classic_ninja/c1.PNG',
-                                       parent = self,
-                                       position = test_ninja_position,
-                                       scale = 0.05)
-        
-        
     
     def update(self):
         # this method is called, hopefully, 60 times a second
@@ -182,23 +174,37 @@ class SettingsScene(Scene):
                                                   scale = 0.15,
                                                   alpha = 0.8)
         
-        # show which ninja is selected for the game by showing it kicking and the others running
+        # show which ninja is selected for the game by showing it running
         
-        if config.character_setting == 'classic':
-            self.classic_ninja_kick()
-        else:
-            self.classic_run()
+        # classic animate
+        if self.animate_classic_enabled == True:
+            
+            self.animate_classic_ninja(self.animate_counter)
+            self.animate_counter = self.animate_counter + 1
+            
+            if self.animate_counter > 8:
+                self.animate_counter = 1
+                self.animate_classic_enabled = False
         
-        if config.character_setting == 'ginger':
-            self.ginger_ninja_kick()
-        else:
-            self.ginger_run()
+        # ginger animate
+        if self.animate_ginger_enabled == True:
+            
+            self.animate_ginger_ninja(self.animate_counter)
+            self.animate_counter = self.animate_counter + 1
+            
+            if self.animate_counter > 8:
+                self.animate_counter = 1
+                self.animate_ginger_enabled = False
         
-        if config.character_setting == 'bat':
-            self.bat_ninja_kick()
-        else:
-            self.bat_run()
-        
+        # bat animate
+        if self.animate_bat_enabled == True:
+            
+            self.animate_bat_ninja(self.animate_counter)
+            self.animate_counter = self.animate_counter + 1
+            
+            if self.animate_counter > 8:
+                self.animate_counter = 1
+                self.animate_bat_enabled = False
         
     
     def touch_began(self, touch):
@@ -231,35 +237,17 @@ class SettingsScene(Scene):
         # changing characters options and animating them but only for 1 cycle
         if self.classic_ninja.frame.contains_point(touch.location):
             config.character_setting = 'classic'
+            self.animate_classic_enabled = True
+            
         if self.ginger_ninja.frame.contains_point(touch.location):
             config.character_setting = 'ginger'
+            self.animate_ginger_enabled = True
             #print(config.character_setting)
+            
         if self.bat_ninja.frame.contains_point(touch.location):
             config.character_setting = 'bat'
+            self.animate_bat_enabled = True
             #print(config.character_setting)
-        
-        
-        
-        
-        # testing animation: this works
-        if self.test_ninja.frame.contains_point(touch.location):
-            print(self.test_counter)
-            self.test_animating(self.test_counter)
-            self.test_counter = self.test_counter + 1
-            if self.test_counter > 8:
-                self.test_counter = 1
-        
-        
-#        # testing animation: this does not work
-#        if self.test_ninja.frame.contains_point(touch.location):
-#            while self.test_counter <= 8:
-#                print(self.test_counter)
-#                self.test_animating(self.test_counter)
-#                self.test_counter = self.test_counter + 1
-#                
-#            self.test_counter = 1
-        
-        
         
     
     def did_change_size(self):
@@ -277,144 +265,63 @@ class SettingsScene(Scene):
         # back into use. Reload anything you might need.
         pass
     
-    def classic_ninja_kick(self):
-        # shows ninja kicking
-        
-        # take out running ninja
-        self.classic_ninja.remove_from_parent()
-        
-        #kicking ninja properties
-        c_ninja_kick_file = './assets/sprites/classic_ninja/ckick.PNG'
-        kick_c_ninja_scale = 0.13
-        classic_ninja_position = Vector2()
-        classic_ninja_position.x = self.size.x / 4
-        classic_ninja_position.y = 200
-        
-        # reassign ninja
-        self.classic_ninja = SpriteNode(c_ninja_kick_file,
-                                        parent = self,
-                                        position = classic_ninja_position,
-                                        scale = kick_c_ninja_scale)
-    
-    def ginger_ninja_kick(self):
-        # shows ninja kicking
-        
-        # take out running ninja
-        self.ginger_ninja.remove_from_parent()
-        
-        #kicking ninja properties
-        g_ninja_kick_file = './assets/sprites/ginger_ninja/gkick.PNG'
-        kick_g_ninja_scale = 0.13
-        ginger_ninja_position = Vector2()
-        ginger_ninja_position.x = self.size.x / 2
-        ginger_ninja_position.y = 200
-        
-        # reassign ninja
-        self.ginger_ninja = SpriteNode(g_ninja_kick_file,
-                                       parent = self,
-                                       position = ginger_ninja_position,
-                                       scale = kick_g_ninja_scale)
-        
-    def bat_ninja_kick(self):
-        # shows ninja kicking
-        
-        # take out running ninja
-        self.bat_ninja.remove_from_parent()
-        
-        #kicking ninja properties
-        b_ninja_kick_file = './assets/sprites/bat_ninja/bkick.PNG'
-        kick_b_ninja_scale = 0.13
-        bat_ninja_position = Vector2()
-        bat_ninja_position.x = self.size.x * 3 / 4
-        bat_ninja_position.y = 200
-        
-        # reassign ninja
-        self.bat_ninja = SpriteNode(b_ninja_kick_file,
-                                       parent = self,
-                                       position = bat_ninja_position,
-                                       scale = kick_b_ninja_scale)
-        
-    def classic_run(self):
-        # shows ninja running
-        
-        # take out kicking ninja
-        self.classic_ninja.remove_from_parent()
-        
-        # ninja properties
-        classic_ninja_position = Vector2()
-        classic_ninja_position.x = self.size.x / 4
-        classic_ninja_position.y = 200
-        self.classic_ninja = SpriteNode('./assets/sprites/classic_ninja/c1.PNG',
-                                        parent = self,
-                                        position = classic_ninja_position,
-                                        scale = 0.11)
-        
-    def ginger_run(self):
-        # shows ninja running
-        
-        # take out kicking ninja
-        self.ginger_ninja.remove_from_parent()
-        
-        # ninja properties
-        ginger_ninja_position = Vector2()
-        ginger_ninja_position.x = self.size.x / 2
-        ginger_ninja_position.y = 200
-        self.ginger_ninja = SpriteNode('./assets/sprites/ginger_ninja/g1.PNG',
-                                    parent = self,
-                                    position = ginger_ninja_position,
-                                    scale = 0.1)
-        
-    def bat_run(self):
-        # shows ninja running
-        
-        # take out kicking ninja
-        self.bat_ninja.remove_from_parent()
-        
-        # ninja properties
-        bat_ninja_position = Vector2()
-        bat_ninja_position.x = self.size.x * 3 / 4
-        bat_ninja_position.y = 200
-        self.bat_ninja = SpriteNode('./assets/sprites/bat_ninja/b1.PNG',
-                                    parent = self,
-                                    position = bat_ninja_position,
-                                    scale = 0.1)
-        
-    
     def animate_classic_ninja(self, classic_count):
         # animates the classic ninja
         #pass
-        print(classic_count)
+        
         # takes out existing sprite
         self.classic_ninja.remove_from_parent()
+        
         # shows next sprite
         classic_ninja_file = "./assets/sprites/classic_ninja/c" + str(classic_count) + ".PNG"
-        classic_ninja_position = self.CENTRE_OF_SCREEN
-        classic_ninja_position.x = 200
+        
+        classic_ninja_position = Vector2()
+        classic_ninja_position.x = self.size.x / 4
         classic_ninja_position.y = 200
+        
         self.classic_ninja = SpriteNode(classic_ninja_file,
                                         parent = self,
                                         position = classic_ninja_position,
                                         scale = 0.11)
-
-
-
-    def test_animating(self, test_count):
-        # testing animating so I dont mess up the rest of my code
+    
+    def animate_ginger_ninja(self, ginger_count):
+        # animates the classic ninja
         #pass
         
-        self.test_ninja.remove_from_parent()
+        # takes out existing sprite
+        self.ginger_ninja.remove_from_parent()
         
-        test_ninja_position = Vector2()
-        test_ninja_position.x = self.size.x - 100
-        test_ninja_position.y = self.size.y - 100
+        # shows next sprite
+        ginger_ninja_file = "./assets/sprites/ginger_ninja/g" + str(ginger_count) + ".PNG"
         
-        test_ninja_file = "./assets/sprites/classic_ninja/c" + str(test_count) + ".PNG"
+        ginger_ninja_position = Vector2()
+        ginger_ninja_position.x = self.size.x / 2
+        ginger_ninja_position.y = 200
         
-        self.test_ninja = SpriteNode(test_ninja_file,
-                                     parent = self,
-                                     position = test_ninja_position,
-                                     scale = 0.05)
+        self.ginger_ninja = SpriteNode(ginger_ninja_file,
+                                        parent = self,
+                                        position = ginger_ninja_position,
+                                        scale = 0.1)
         
+    
+    def animate_bat_ninja(self, bat_count):
+        # animates the classic ninja
+        #pass
         
+        # takes out existing sprite
+        self.bat_ninja.remove_from_parent()
         
+        # shows next sprite
+        bat_ninja_file = "./assets/sprites/bat_ninja/b" + str(bat_count) + ".PNG"
+        
+        bat_ninja_position = Vector2()
+        bat_ninja_position.x = self.size.x * 3 / 4
+        bat_ninja_position.y = 200
+        
+        self.bat_ninja = SpriteNode(bat_ninja_file,
+                                        parent = self,
+                                        position = bat_ninja_position,
+                                        scale = 0.1)
+        
+    
     
